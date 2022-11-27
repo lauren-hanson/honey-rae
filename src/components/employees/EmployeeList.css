@@ -1,0 +1,12 @@
+.employees { 
+    display: flex; 
+    flex-flow: row wrap;
+    justify-content: space-evenly;  
+}
+
+.employee { 
+    background-color: teal; 
+    border: 2px dotted black; 
+    padding: 0.5rem; 
+    margin: 0.5rem; 
+}
