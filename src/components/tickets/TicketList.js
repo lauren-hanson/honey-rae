@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import "./Tickets.css"
 
 export const TicketList = ({ searchTermState }) => {
@@ -15,11 +15,12 @@ export const TicketList = ({ searchTermState }) => {
     useEffect(
         () => {
             const searchedTickets = tickets.filter(ticket => {
-                return ticket.description.toLowerCase().startsWith(searchTermState.toLowerCase())}
-                )
+                return ticket.description.toLowerCase().startsWith(searchTermState.toLowerCase())
+            }
+            )
             setFilteredTickets(searchedTickets)
         },
-        [ searchTermState ]
+        [searchTermState]
     )
 
 
@@ -102,7 +103,10 @@ export const TicketList = ({ searchTermState }) => {
             {filteredTickets.map(
                 (ticket) => {
                     return <section className="ticket" key={`ticket--${ticket.id}`}>
-                        <header>{ticket.description}</header>
+                        <header>
+                            <Link to={`/tickets/${ticket.id}/edit`}>Ticket {ticket.id}</Link>
+                        </header>
+                        <section>{ticket.description}</section>
                         <footer>Emergency: {ticket.emergency ? "🧨" : "No"}</footer>
                     </section>
                 }
