@@ -10,8 +10,8 @@ export const EmployeeDetails = () => {
         () => { 
             fetch(`http://localhost:8088/employees?_expand=user&_embed=employeeTickets&userId=${employeeId}`) 
                 .then(response => response.json())
-                .then((data) => { 
-                    const singleEmployee = data[0]
+                .then((employeeData) => { 
+                    const singleEmployee = employeeData[0]
                     setEmployee(singleEmployee)
                 })
         }, 
