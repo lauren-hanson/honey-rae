@@ -23,7 +23,7 @@ export const EmployeeDetails = () => {
     <section className="employee">
         <header className="employee__header">{employee?.user?.fullName}</header>
         <div>Email: {employee?.user?.email}</div>
-        <div>Speciality: {employee.speciality}</div>
+        <div>Speciality: {employee.specialty}</div>
         <div>Rate: {employee.rate}</div>
         <footer>Currently working on {employee?.employeeTickets?.length} tickets.</footer>
     </section>
