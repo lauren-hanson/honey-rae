@@ -9,7 +9,9 @@ export const TicketEdit = () => {
 
     })
 
+    // returns an object
     const { ticketId } = useParams() 
+
     const navigate = useNavigate()
 
     useEffect( 
@@ -27,7 +29,7 @@ export const TicketEdit = () => {
         event.preventDefault()
 
 
-        return fetch(`http://localhost:8088/serviceTickets/${ticket.id}`, {
+        return fetch(`http://localhost:8088/serviceTickets/${ticketId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
