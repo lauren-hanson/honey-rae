@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { Ticket } from "./Ticket"
 import "./Tickets.css"
 
 export const TicketList = ({ searchTermState }) => {
@@ -101,20 +102,17 @@ export const TicketList = ({ searchTermState }) => {
         <h2>List of Tickets</h2>
         <article className="tickets">
             {filteredTickets.map(
-                (ticket) => {
-                    return <section className="ticket" key={`ticket--${ticket.id}`}>
-                        <header>
-                            <Link to={`/tickets/${ticket.id}/edit`}>Ticket {ticket.id}</Link>
-                        </header>
-                        <section>{ticket.description}</section>
-                        <footer>Emergency: {ticket.emergency ? "🧨" : "No"}</footer>
-                    </section>
-                }
-            )
+                (ticket) => <Ticket ticketObject={ticket} isStaff={ honeyUserObject.staff }/>)
             }
         </article>
     </>
 
 
 }
+
+// ticketObject & isStaff are props that have been passed to Ticket.js
+
+// Ticket.js has been added to help this module to stay simple
+
+// Ticket has been imported from Ticket.js to display JSX
 
