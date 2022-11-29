@@ -5,10 +5,10 @@ import { Link } from "react-router-dom"
 export const Ticket = ({ ticketObject, currentUser, employees, getAllTickets }) => {
 
     // Find the assigned employee for the current ticket 
-    let assignedEmployee = null 
+    let assignedEmployee = null
 
-    if (ticketObject.employeeTickets.length > 0) { 
-        
+    if (ticketObject.employeeTickets.length > 0) {
+
         const ticketEmployeeRelationship = ticketObject.employeeTickets[0]
 
         assignedEmployee = employees.find(employee => employee.id === ticketEmployeeRelationship.employeeId)
@@ -16,6 +16,35 @@ export const Ticket = ({ ticketObject, currentUser, employees, getAllTickets }) 
 
     // Find the employee profile object for the current user 
     const userEmployee = employees.find(employee => employee.userId === currentUser.id)
+
+    const buttonOrNoButton = () => { 
+        if (currentUser.staff) { 
+            return <button
+            onClick={ 
+                () => { 
+                    fetch(`http://localhost:8088/employeeTickets`, { 
+                        method: "POST", 
+                        headers: { 
+                            "Content-Type": "application/json"
+                        }, 
+                        body: JSON.stringify({ 
+                            employeeId: userEmployee.id, 
+                            serviceTicketId: ticketObject.id
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(() => { 
+                        // this is what will happen after ticket has been claimed & API has been updated 
+                        // need to GET the state from API again
+                        // this function is created in TicketList.js
+                        getAllTickets()
+                    })
+                }
+                }>Claim</button> 
+        } else { 
+            return ""
+        }
+    }
 
     return (
 
@@ -35,29 +64,7 @@ export const Ticket = ({ ticketObject, currentUser, employees, getAllTickets }) 
                 {
                     ticketObject.employeeTickets.length
                         ? `Currently being worked on by ${assignedEmployee !== null ? assignedEmployee?.user?.fullName : ""}`
-                        : <button
-                        
-                            onClick={ 
-                                () => { 
-                                    fetch(`http://localhost:8088/employeeTickets`, { 
-                                        method: "POST", 
-                                        headers: { 
-                                            "Content-Type": "application/json"
-                                        }, 
-                                        body: JSON.stringify({ 
-                                            employeeId: userEmployee.id, 
-                                            serviceTicketId: ticketObject.id
-                                        })
-                                    })
-                                    .then(response => response.json())
-                                    .then(() => { 
-                                        // this is what will happen after ticket has been claimed & API has been updated 
-                                        // need to GET the state from API again
-                                        // this function is created in TicketList.js
-                                        getAllTickets()
-                                    })
-                                }
-                            }>Claim</button>
+                        : buttonOrNoButton()
                 }
             </footer>
         </section>
