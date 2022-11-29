@@ -30,3 +30,5 @@ export const EmployeeViews = () => {
         </Routes>
     )
 }
+
+// :employeeId is a new variable to store employee.id that we will extract w/ useParams()

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 
 export const EmployeeDetails = () => { 
 
+    //capture & extract route parameter employeeId from EmployeeView.js
     const {employeeId} = useParams() 
     const [employee, setEmployee] = useState({}) 
 

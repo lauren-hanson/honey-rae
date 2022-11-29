@@ -8,6 +8,7 @@ export const Register = (props) => {
         fullName: "",
         isStaff: false
     })
+    
     let navigate = useNavigate()
 
     const registerNewUser = () => {
