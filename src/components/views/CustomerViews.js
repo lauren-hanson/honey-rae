@@ -9,12 +9,12 @@ export const CustomerViews = () => {
     return (
         <Routes>
             <Route path="/" element={
-                <>
+                <div className="style">
                     <h1>Honey Rae Repair Shop</h1>
                     <div>Your one-stop-shop to get all your electronics fixed</div>
 
                     <Outlet />
-                </>
+                </div>
             }>
 
                 <Route path="tickets" element={<TicketList />} />
