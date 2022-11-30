@@ -1,6 +1,7 @@
 
 import { EmployeeViews } from "./EmployeeViews"
 import { CustomerViews } from "./CustomerViews"
+import "./Views.css"
 
 export const ApplicationViews = () => {
 

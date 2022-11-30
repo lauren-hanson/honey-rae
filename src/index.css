@@ -5,6 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: url("https://previews.123rf.com/images/ssstocker/ssstocker1705/ssstocker170500287/79267183-outil-mat%C3%A9riel-ensemble-lin%C3%A9aire-seamless-pattern-charpentier-charpentier-ou-outils-travaillant-lign.jpg") top center repeat-y;
+  background-size: 100%; 
+ 
 }
 
 code {

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 
+
 // ticketObject & isStaff are props that have been created in TicketList.js
 
 export const Ticket = ({ ticketObject, currentUser, employees, getAllTickets }) => {
@@ -14,34 +15,93 @@ export const Ticket = ({ ticketObject, currentUser, employees, getAllTickets }) 
         assignedEmployee = employees.find(employee => employee.id === ticketEmployeeRelationship.employeeId)
     }
 
+
+
     // Find the employee profile object for the current user 
     const userEmployee = employees.find(employee => employee.userId === currentUser.id)
 
-    const buttonOrNoButton = () => { 
-        if (currentUser.staff) { 
+
+
+    // Function that determines if the current user can close the ticket 
+    const canClose = () => {
+        if (userEmployee?.id === assignedEmployee?.id && currentUser?.staff && ticketObject?.dateCompleted === "") {
             return <button
-            onClick={ 
-                () => { 
-                    fetch(`http://localhost:8088/employeeTickets`, { 
-                        method: "POST", 
-                        headers: { 
-                            "Content-Type": "application/json"
-                        }, 
-                        body: JSON.stringify({ 
-                            employeeId: userEmployee.id, 
-                            serviceTicketId: ticketObject.id
-                        })
+                onClick={closeTicket} className="ticket__finish">Finish</button>
+        } else {
+            return ""
+        }
+    }
+
+
+
+    // Function that updates the ticket with a new date completed 
+    const closeTicket = () => {
+
+        const copy = {
+
+            userId: ticketObject.id,
+            description: ticketObject.description,
+            emergency: ticketObject.emergency,
+            dateCompleted: new Date()
+
+        }
+
+        // sending new information directly to the serviceTicket by using the PK 
+        return fetch(`http://localhost:8088/serviceTickets/${ticketObject.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(copy)
+        })
+            .then(response => response.json())
+            .then(getAllTickets)
+    }
+
+    const deleteButton = () => {
+        if (!currentUser.staff) {
+            return <button
+                onClick={() => {
+                    fetch(`http://localhost:8088/serviceTickets/${ticketObject.id}`, {
+                        method: "DELETE"
                     })
-                    .then(response => response.json())
                     .then(() => { 
-                        // this is what will happen after ticket has been claimed & API has been updated 
-                        // need to GET the state from API again
-                        // this function is created in TicketList.js
+                        // this will GET updated API & rerender the page 
                         getAllTickets()
                     })
-                }
-                }>Claim</button> 
-        } else { 
+                }}
+                className="ticket__delete"
+            >Delete</button>
+        } else {
+            return ""
+        }
+    }
+
+    const buttonOrNoButton = () => {
+        if (currentUser.staff) {
+            return <button
+                onClick={
+                    () => {
+                        fetch(`http://localhost:8088/employeeTickets`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                employeeId: userEmployee.id,
+                                serviceTicketId: ticketObject.id
+                            })
+                        })
+                            .then(response => response.json())
+
+                            // this is what will happen after ticket has been claimed & API has been updated 
+                            // need to GET the state from API again
+                            // this function is created in TicketList.js
+
+                            .then(getAllTickets)
+                    }
+                }>Claim</button>
+        } else {
             return ""
         }
     }
@@ -65,6 +125,12 @@ export const Ticket = ({ ticketObject, currentUser, employees, getAllTickets }) 
                     ticketObject.employeeTickets.length
                         ? `Currently being worked on by ${assignedEmployee !== null ? assignedEmployee?.user?.fullName : ""}`
                         : buttonOrNoButton()
+                }
+                {
+                    canClose()
+                }
+                {
+                    deleteButton()
                 }
             </footer>
         </section>

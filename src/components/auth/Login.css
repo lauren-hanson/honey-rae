@@ -43,6 +43,11 @@ fieldset {
 
 .container--login {
     text-align: center;
+    border: 1px solid #3b6084; 
+    padding: 20px;
+    margin: 20px; 
+    background-color: #bccedf; 
+    opacity: 95%; 
 }
 
 .form--login {
@@ -50,7 +55,7 @@ fieldset {
     z-index: 1;
     min-height: 25rem;
     min-width: 45rem;
-    background-color: hsla(0,0%,100%,0.40);
+    background-color: #bccedf;
     background-blend-mode: overlay;
     background-repeat: no-repeat;
 }

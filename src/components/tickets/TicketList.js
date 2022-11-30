@@ -119,6 +119,7 @@ export const TicketList = ({ searchTermState }) => {
         <article className="tickets">
             {filteredTickets.map(
                 (ticket) => <Ticket 
+                    key={`ticket--${ticket.id}`}
                     ticketObject={ticket} 
                     currentUser={honeyUserObject} employees={employees} 
                     getAllTickets={getAllTickets}
